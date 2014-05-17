@@ -8,6 +8,7 @@ public class BlockSlopedTrack extends BlockTrack {
 
 	public BlockSlopedTrack() {
 		super();
+		setBlockBounds(0, 0, 0, 1, 0.5F, 1);
 	}
 
 	@Override

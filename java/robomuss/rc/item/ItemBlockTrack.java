@@ -6,13 +6,13 @@ import net.minecraft.item.ItemStack;
 
 public class ItemBlockTrack extends ItemBlock {
 
-	public ItemBlockTrack(Block p_i45328_1_) {
-		super(p_i45328_1_);
+	public ItemBlockTrack(Block block) {
+		super(block);
 	}
 
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		return stack.getUnlocalizedName() + "." + stack.getItemDamage();
+		return getUnlocalizedName() + "." + stack.getItemDamage();
 	}
 	
 	@Override

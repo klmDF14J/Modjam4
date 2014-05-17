@@ -5,7 +5,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.item.RCItems;
+import robomuss.rc.util.ColourUtil;
 
 public class BlockTrack extends BlockContainer {
 
@@ -21,14 +23,28 @@ public class BlockTrack extends BlockContainer {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(!world.isRemote) {
-			if(player.getHeldItem() != null && player.getHeldItem().getItem() == RCItems.hammer) {
-				if(world.getBlockMetadata(x, y, z) % 4 == 3) {
-					world.setBlockMetadataWithNotify(x, y, z, 0, 0);
+			if(player.getHeldItem() != null) {
+				if(player.getHeldItem().getItem() == RCItems.hammer) {
+					TileEntityTrack tet = (TileEntityTrack) world.getTileEntity(x, y, z);
+					if(tet.direction == 3) {
+						tet.direction = 0;
+					}
+					else {
+						tet.direction++;
+					}
+					world.markBlockForUpdate(x, y, z);
+					return true;
+				}
+				else if(player.getHeldItem().getItem() == RCItems.brush) {
+					TileEntityTrack tet = (TileEntityTrack) world.getTileEntity(x, y, z);
+					tet.colour = player.getHeldItem().getItemDamage();
+					world.markBlockForUpdate(x, y, z);
+					return true;
 				}
 				else {
-					world.setBlockMetadataWithNotify(x, y, z, world.getBlockMetadata(x, y, z) + 1, 0);
+					return false;
 				}
-				return true;
+				
 			}
 			else {
 				return false;

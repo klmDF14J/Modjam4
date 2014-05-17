@@ -9,6 +9,9 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.model.ModelTransitionTrack;
+import robomuss.rc.block.te.TileEntityFlatTrack;
+import robomuss.rc.block.te.TileEntityTransitionTrack;
+import robomuss.rc.util.ColourUtil;
 
 
 public class TileEntityRenderTransitionTrack extends TileEntitySpecialRenderer {
@@ -22,7 +25,8 @@ public class TileEntityRenderTransitionTrack extends TileEntitySpecialRenderer {
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float scale) {
 		GL11.glPushMatrix();
-		//GL11.glColor4f(ColourUtil.getRed(tet.colour), ColourUtil.getGreen(tet.colour), ColourUtil.getBlue(tet.colour), ColourUtil.getAlpha(tet.colour));
+		int colour = ((TileEntityTransitionTrack) te).colour;
+		GL11.glColor4f(ColourUtil.getRed(colour), ColourUtil.getGreen(colour), ColourUtil.getBlue(colour), ColourUtil.getAlpha(colour));
 		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
 
 		ResourceLocation textures = (new ResourceLocation("rc:textures/models/transition_track.png"));
@@ -30,7 +34,7 @@ public class TileEntityRenderTransitionTrack extends TileEntitySpecialRenderer {
 		Minecraft.getMinecraft().renderEngine.bindTexture(textures);
 
 		GL11.glPushMatrix();
-		switch(te.getBlockMetadata()){
+		switch(((TileEntityTransitionTrack) te).direction){
         case 1:
                 GL11.glRotatef(180f, 0f, 0f, 0f);
                 break;
