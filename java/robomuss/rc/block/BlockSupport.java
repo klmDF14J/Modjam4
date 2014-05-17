@@ -2,9 +2,12 @@ package robomuss.rc.block;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntitySupport;
+import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.item.RCItems;
 
 public class BlockSupport extends BlockContainer {
     protected BlockSupport() {
@@ -25,4 +28,29 @@ public class BlockSupport extends BlockContainer {
     public int getRenderType() {
         return 110;
     }
+    
+    @Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		if(!world.isRemote) {
+			if(player.getHeldItem() != null) {
+				if(player.getHeldItem().getItem() == RCItems.brush) {
+					System.out.println("Colouring");
+					TileEntitySupport tes = (TileEntitySupport) world.getTileEntity(x, y, z);
+					tes.colour = player.getHeldItem().getItemDamage();
+					world.markBlockForUpdate(x, y, z);
+					return true;
+				}
+				else {
+					return false;
+				}
+				
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+	}
 }

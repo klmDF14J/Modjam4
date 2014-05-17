@@ -27,7 +27,7 @@ public class TileEntityRenderSlopedTrack extends TileEntitySpecialRenderer {
 		GL11.glPushMatrix();
 		int colour = ((TileEntitySlopedTrack) te).colour;
 		GL11.glColor4f(ColourUtil.getRed(colour), ColourUtil.getGreen(colour), ColourUtil.getBlue(colour), ColourUtil.getAlpha(colour));
-		GL11.glTranslatef((float) x - 0.5F, (float) y + 1.5F, (float) z + 0.5F);
+		
 
 		ResourceLocation textures = (new ResourceLocation("rc:textures/models/sloped_track.png"));
 
@@ -36,16 +36,20 @@ public class TileEntityRenderSlopedTrack extends TileEntitySpecialRenderer {
 		GL11.glPushMatrix();
 		switch(((TileEntitySlopedTrack) te).direction){
         case 1:
+        		GL11.glTranslatef((float) x - 0.5F, (float) y + 1.5F, (float) z + 0.5F);
                 GL11.glRotatef(225f, 0f, 0f, 1f);
                 break;
         case 2:
+        		GL11.glTranslatef((float) x + 1F, (float) y + 1.5F, (float) z + 0.5F);
                 GL11.glRotatef(225f, 0f, 0f, -1f);
                 break;
         case 3:
+        		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 1.5F);
                 GL11.glRotatef(90f, 0f, 1f, 0f);
                 GL11.glRotatef(225f, 0f, 0f, 1f);
                 break;
         default:
+        		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z);	
         		GL11.glRotatef(90f, 0f, 1f, 0f);
         		GL11.glRotatef(225f, 0f, 0f, -1f);
         		break;
