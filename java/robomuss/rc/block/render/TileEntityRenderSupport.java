@@ -2,33 +2,40 @@ package robomuss.rc.block.render;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.model.ModelTrackSupport;
+import robomuss.rc.block.te.TileEntitySupport;
 
 public class TileEntityRenderSupport extends TileEntitySpecialRenderer {
     
     public ModelTrackSupport model;
-    
+
+    public TileEntityRenderSupport() {
+        this.model = new ModelTrackSupport();
+    }
+
     @Override
     public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float var8) {
         GL11.glPushMatrix();
-
-        GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
-
+        GL11.glTranslatef((float) x + 0.5F, (float) y - 0.5F, (float) z + 0.5F);
         ResourceLocation textures = (new ResourceLocation("rc:textures/models/support.png"));
-
         Minecraft.getMinecraft().renderEngine.bindTexture(textures);
+        TileEntitySupport stile = ((TileEntitySupport) tile);
+        if(!stile.down)
+        {
+            this.model.Top.render(0.0625F);
+        }
 
-        GL11.glPushMatrix();
+        if(!stile.up)
+        {
+            this.model.Bottom.render(0.0625F);
+        }
+
+        this.model.Middle.render(0.0625F);
 
 
-
-        this.model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
-
-        GL11.glPopMatrix();
         GL11.glPopMatrix();
     }
 }

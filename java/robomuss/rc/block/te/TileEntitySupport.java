@@ -3,7 +3,7 @@ package robomuss.rc.block.te;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntitySupport extends TileEntity {
-    boolean up, down;
+  public  boolean up, down;
     @Override
     public void updateEntity()
     {
@@ -24,5 +24,6 @@ public class TileEntitySupport extends TileEntity {
         {
             down = false;
         }
+        super.updateEntity();
     }
 }

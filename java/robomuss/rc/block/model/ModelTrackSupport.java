@@ -18,9 +18,9 @@ import net.minecraft.entity.Entity;
 public class ModelTrackSupport extends ModelBase
 {
   //fields
-    ModelRenderer Middle;
-    ModelRenderer Bottom;
-    ModelRenderer Top;
+   public  ModelRenderer Middle;
+    public  ModelRenderer Bottom;
+    public  ModelRenderer Top;
   
   public ModelTrackSupport()
   {
@@ -28,7 +28,7 @@ public class ModelTrackSupport extends ModelBase
     textureHeight = 128;
     
       Middle = new ModelRenderer(this, 0, 0);
-      Middle.addBox(0F, 0F, 0F, 10, 15, 10);
+      Middle.addBox(0F, 0F, 0F, 10, 16, 10);
       Middle.setRotationPoint(-5F, 8F, -5F);
       Middle.setTextureSize(128, 128);
       Middle.mirror = true;
