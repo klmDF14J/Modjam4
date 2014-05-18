@@ -13,7 +13,7 @@ public class ItemBlockPath extends ItemBlock {
 
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		return getUnlocalizedName() + "." + stack.getItemDamage();
+		return getUnlocalizedName() + "_" + stack.getItemDamage();
 	}
 	
 	@Override

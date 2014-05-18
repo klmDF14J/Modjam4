@@ -7,6 +7,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import robomuss.rc.block.te.TileEntityCurvedTrack;
 import robomuss.rc.block.te.TileEntityFlatTrack;
 import robomuss.rc.block.te.TileEntityLoop;
+import robomuss.rc.block.te.TileEntityRideFence;
 import robomuss.rc.block.te.TileEntitySlopedTrack;
 import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.block.te.TileEntityTransitionTrack;
@@ -16,7 +17,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class RCBlocks {
 
-	public static Block flat_track, transition_track, transition_track_2, sloped_track, curved_track, loop, support, path, railings, picket;
+	public static Block flat_track, transition_track, transition_track_2, sloped_track, curved_track, loop, support, path, railings, picket, ride_fence;
 	
 	public static void init() {
 		flat_track = new BlockFlatTrack().setBlockName("flat_track").setBlockTextureName("rc:flat_track").setCreativeTab(CreativeTabs.tabTransport);
@@ -31,6 +32,7 @@ public class RCBlocks {
         path = new BlockPath().setBlockName("path").setCreativeTab(CreativeTabs.tabBlock);
 		railings = new BlockRailings("railings").setBlockName("railings").setCreativeTab(CreativeTabs.tabBlock);
 		picket = new BlockRailings("picket").setBlockName("picket").setCreativeTab(CreativeTabs.tabBlock);
+		ride_fence = new BlockRideFence().setBlockName("ride_fence").setBlockTextureName("rc:ride_fence").setCreativeTab(CreativeTabs.tabBlock);
 		
 		GameRegistry.registerBlock(flat_track, "flat_track");
 		GameRegistry.registerBlock(transition_track, "transition_track");
@@ -44,6 +46,7 @@ public class RCBlocks {
         GameRegistry.registerBlock(path, ItemBlockPath.class, "path");
 		GameRegistry.registerBlock(railings, "railings");
 		GameRegistry.registerBlock(picket, "picket");
+		GameRegistry.registerBlock(ride_fence, "ride_fence");
         
 		GameRegistry.registerTileEntity(TileEntityFlatTrack.class, "te_flat_track");
 		GameRegistry.registerTileEntity(TileEntityTransitionTrack.class, "te_transition_track");
@@ -53,6 +56,8 @@ public class RCBlocks {
 		GameRegistry.registerTileEntity(TileEntityLoop.class, "te_loop");
 		
         GameRegistry.registerTileEntity(TileEntitySupport.class, "te_support");
+        
+		GameRegistry.registerTileEntity(TileEntityRideFence.class, "te_ride_fence");
 	}
 
 }

@@ -17,6 +17,11 @@ public class ItemBrush extends Item {
 		setHasSubtypes(true);
 	}
 	
+	@Override
+	public String getUnlocalizedName(ItemStack stack) {
+		return getUnlocalizedName() + "_" + stack.getItemDamage();
+	}
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	@SideOnly(Side.CLIENT)
