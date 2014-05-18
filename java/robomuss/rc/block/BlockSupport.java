@@ -6,11 +6,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntitySupport;
-import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.item.RCItems;
 
 public class BlockSupport extends BlockContainer {
-    protected BlockSupport() {
+    
+	public BlockSupport() {
         super(Material.iron);
     }
 
@@ -34,7 +34,6 @@ public class BlockSupport extends BlockContainer {
 		if(!world.isRemote) {
 			if(player.getHeldItem() != null) {
 				if(player.getHeldItem().getItem() == RCItems.brush) {
-					System.out.println("Colouring");
 					TileEntitySupport tes = (TileEntitySupport) world.getTileEntity(x, y, z);
 					tes.colour = player.getHeldItem().getItemDamage();
 					world.markBlockForUpdate(x, y, z);

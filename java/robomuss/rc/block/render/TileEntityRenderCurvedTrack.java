@@ -9,11 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.model.ModelCurvedTrack;
-import robomuss.rc.block.model.ModelTransitionTrack;
 import robomuss.rc.block.te.TileEntityCurvedTrack;
-import robomuss.rc.block.te.TileEntityFlatTrack;
-import robomuss.rc.block.te.TileEntityTransitionTrack;
-import robomuss.rc.util.ColourUtil;
 
 
 public class TileEntityRenderCurvedTrack extends TileEntitySpecialRenderer {
@@ -28,17 +24,17 @@ public class TileEntityRenderCurvedTrack extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float scale) {
 		GL11.glPushMatrix();
 		int colour = ((TileEntityCurvedTrack) te).colour;
-		GL11.glColor4f(ColourUtil.getRed(colour), ColourUtil.getGreen(colour), ColourUtil.getBlue(colour), ColourUtil.getAlpha(colour));
+		//GL11.glColor4f(ColourUtil.getRed(colour), ColourUtil.getGreen(colour), ColourUtil.getBlue(colour), ColourUtil.getAlpha(colour));
 		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
 
-		ResourceLocation textures = (new ResourceLocation("rc:textures/models/curved_track.png"));
+		ResourceLocation textures = (new ResourceLocation("rc:textures/models/colour_" + colour + ".png"));
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(textures);
 
 		GL11.glPushMatrix();
 		switch(((TileEntityCurvedTrack) te).direction){
         case 1:
-                GL11.glRotatef(180f, 0f, 0f, 0f);
+        		GL11.glRotatef(180f, -180f, 0f, 0f);
                 break;
         case 2:
                 GL11.glRotatef(180f, 180f, 0f, 180f);

@@ -33,7 +33,7 @@ public class TileEntitySupport extends TileEntity {
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
-		colour = compound.getInteger("compound");
+		colour = compound.getInteger("colour");
 	}
 	
 	@Override
