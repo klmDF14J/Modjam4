@@ -1,9 +1,9 @@
 package robomuss.rc.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockPane;
-import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import robomuss.rc.block.te.TileEntityCurvedTrack;
 import robomuss.rc.block.te.TileEntityFlatTrack;
 import robomuss.rc.block.te.TileEntityLoop;
@@ -58,6 +58,14 @@ public class RCBlocks {
         GameRegistry.registerTileEntity(TileEntitySupport.class, "te_support");
         
 		GameRegistry.registerTileEntity(TileEntityRideFence.class, "te_ride_fence");
+		
+		GameRegistry.addRecipe(new ItemStack(ride_fence, 4), new Object[] {
+			"XXX", "X X", 'X', Items.iron_ingot
+		});
+		
+		GameRegistry.addRecipe(new ItemStack(support, 4), new Object[] {
+			" X ", " X ", " X ", 'X', Items.iron_ingot
+		});
 	}
 
 }

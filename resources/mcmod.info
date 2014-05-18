@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "rc",
+  "name": "Rollercoaster Mod",
+  "description": "Adding the ability to create roller coaster tracks into minecraft!",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["roboyobo", "modmuss50"],
+  "credits": "Anyone who attented our live streams!",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

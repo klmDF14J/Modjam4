@@ -4,7 +4,7 @@ tile.transition_track_2.name=Transition Track Segment (Peak -> Slope)
 tile.sloped_track.name=Sloped Track Segment
 tile.curved_track.name=Curved Track Segment
 tile.support.name=Track Support Pole
-tile.loop.name=Loop
+tile.loop.name=Loop Track Segment
 
 tile.path_0.name=Dusty Path
 tile.path_1.name=Concrete Path
