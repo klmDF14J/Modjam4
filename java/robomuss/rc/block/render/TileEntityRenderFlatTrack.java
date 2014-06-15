@@ -10,7 +10,6 @@ import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.model.ModelFlatTrack;
 import robomuss.rc.block.te.TileEntityFlatTrack;
-import robomuss.rc.util.ColourUtil;
 
 
 public class TileEntityRenderFlatTrack extends TileEntitySpecialRenderer {

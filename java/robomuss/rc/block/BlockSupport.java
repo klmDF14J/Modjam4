@@ -12,6 +12,8 @@ public class BlockSupport extends BlockContainer {
     
 	public BlockSupport() {
         super(Material.iron);
+        setHardness(1F);
+		setResistance(3F);
     }
 
     @Override

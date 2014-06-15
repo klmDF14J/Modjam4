@@ -10,7 +10,6 @@ import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.model.ModelTransitionTrack;
 import robomuss.rc.block.te.TileEntityTransitionTrack;
-import robomuss.rc.util.ColourUtil;
 
 
 public class TileEntityRenderTransitionTrack extends TileEntitySpecialRenderer {

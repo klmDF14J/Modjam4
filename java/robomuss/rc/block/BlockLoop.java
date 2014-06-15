@@ -3,7 +3,6 @@ package robomuss.rc.block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityLoop;
-import robomuss.rc.block.te.TileEntitySlopedTrack;
 
 public class BlockLoop extends BlockTrack {
 

@@ -9,10 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.model.ModelSlopedTrack;
-import robomuss.rc.block.te.TileEntityCurvedTrack;
-import robomuss.rc.block.te.TileEntityFlatTrack;
 import robomuss.rc.block.te.TileEntitySlopedTrack;
-import robomuss.rc.util.ColourUtil;
 
 
 public class TileEntityRenderSlopedTrack extends TileEntitySpecialRenderer {
@@ -27,8 +24,8 @@ public class TileEntityRenderSlopedTrack extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float scale) {
 		GL11.glPushMatrix();
 		int colour = ((TileEntitySlopedTrack) te).colour;
-		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
 		//GL11.glColor4f(ColourUtil.getRed(colour), ColourUtil.getGreen(colour), ColourUtil.getBlue(colour), ColourUtil.getAlpha(colour));
+		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
 		
 		ResourceLocation textures = (new ResourceLocation("rc:textures/models/colour_" + colour + ".png"));
 

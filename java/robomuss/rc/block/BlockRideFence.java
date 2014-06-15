@@ -4,14 +4,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityRideFence;
-import robomuss.rc.block.te.TileEntitySupport;
-import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.item.RCItems;
 
 public class BlockRideFence extends BlockTrack {
 
 	public BlockRideFence() {
 		super();
+		setHardness(1F);
+		setResistance(3F);
 	}
 
 	@Override

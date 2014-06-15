@@ -7,5 +7,7 @@ public class BlockRailings extends BlockPane {
 
 	public BlockRailings(String par1) {
 		super("rc:" + par1, "rc:" + par1, Material.iron, true);
+		setHardness(1F);
+		setResistance(3F);
 	}
 }
