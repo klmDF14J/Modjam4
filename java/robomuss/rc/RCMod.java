@@ -4,6 +4,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import robomuss.rc.block.RCBlocks;
+import robomuss.rc.entity.RCEntitys;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.proxy.CommonProxy;
 import cpw.mods.fml.common.Mod;
@@ -30,7 +31,9 @@ public class RCMod {
 	public static CommonProxy proxy;
 	
 	public static CreativeTabs decor, track, tools;
-	
+
+
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		decor = new CreativeTabs("tab.decor") {
@@ -63,6 +66,7 @@ public class RCMod {
 		proxy.initRenderers();
 		RCBlocks.init();
 		RCItems.init();
+        RCEntitys.init();
 	}
 	
 	@EventHandler

@@ -1,9 +1,12 @@
 package robomuss.rc.block;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.item.RCItems;
@@ -55,4 +58,72 @@ public class BlockTrack extends BlockContainer {
 			return false;
 		}
 	}
+
+    public static final boolean isTrack(World world, int x, int y, int z)
+    {
+        return isTrack(world.getBlock(x, y, z));
+    }
+
+    public static final boolean isTrack(Block block)
+    {
+        return block instanceof BlockTrack;
+    }
+
+    /**
+     * Returns the max speed of the rail at the specified position.
+     * @param world The world.
+     * @param cart The cart on the rail, may be null.
+     * @param x The rail X coordinate.
+     * @param y The rail Y coordinate.
+     * @param z The rail Z coordinate.
+     * @return The max speed of the current rail.
+     */
+    public float getRailMaxSpeed(World world, EntityMinecart cart, int y, int x, int z)
+    {
+        return 0.4f;
+    }
+
+    /**
+     * Return the rail's metadata (without the power bit if the rail uses one).
+     * Can be used to make the cart think the rail something other than it is,
+     * for example when making diamond junctions or switches.
+     * The cart parameter will often be null unless it it called from EntityMinecart.
+     *
+     * Valid rail metadata is defined as follows:
+     * 0x0: flat track going North-South
+     * 0x1: flat track going West-East
+     * 0x2: track ascending to the East
+     * 0x3: track ascending to the West
+     * 0x4: track ascending to the North
+     * 0x5: track ascending to the South
+     * 0x6: WestNorth corner (connecting East and South)
+     * 0x7: EastNorth corner (connecting West and South)
+     * 0x8: EastSouth corner (connecting West and North)
+     * 0x9: WestSouth corner (connecting East and North)
+     *
+     * @param world The world.
+     * @param cart The cart asking for the metadata, null if it is not called by EntityMinecart.
+     * @param y The rail X coordinate.
+     * @param x The rail Y coordinate.
+     * @param z The rail Z coordinate.
+     * @return The metadata.
+     */
+    public int getBasicRailMetadata(IBlockAccess world, EntityMinecart cart, int x, int y, int z)
+    {
+        int meta = world.getBlockMetadata(x, y, z);
+        if(isPowered())
+        {
+            meta = meta & 7;
+        }
+        return meta;
+    }
+
+    /**
+     * Returns true if the block is power related rail.
+     */
+    public boolean isPowered()
+    {
+        return true;
+    }
+
 }

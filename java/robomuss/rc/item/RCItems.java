@@ -9,18 +9,20 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class RCItems {
 
-	public static Item hammer, paint, empty_brush, brush;
+	public static Item hammer, paint, empty_brush, brush, train;
 	
 	public static void init() {
 		hammer = new ItemHammer().setUnlocalizedName("hammer").setTextureName("rc:hammer").setCreativeTab(RCMod.tools);
 		paint = new ItemPaint().setUnlocalizedName("paint").setCreativeTab(RCMod.tools);
 		empty_brush = new Item().setUnlocalizedName("empty_brush").setTextureName("rc:brush").setCreativeTab(RCMod.tools);
 		brush = new ItemBrush().setUnlocalizedName("brush").setCreativeTab(RCMod.tools);
-		
+        train = new ItemTrain().setUnlocalizedName("train").setCreativeTab(RCMod.track);
+
 		GameRegistry.registerItem(hammer, "hammer");
 		GameRegistry.registerItem(paint, "paint");
 		GameRegistry.registerItem(empty_brush, "empty_brush");
 		GameRegistry.registerItem(brush, "brush");
+        GameRegistry.registerItem(train, "train");
 		
 		GameRegistry.addRecipe(new ItemStack(hammer), new Object[] {
 			"X", "Y", 'X', Items.iron_ingot, 'Y', Items.stick
