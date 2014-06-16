@@ -106,8 +106,11 @@ public class EntityTrain extends Entity
      */
     public AxisAlignedBB getCollisionBox(Entity par1Entity)
     {
-
-        return par1Entity.canBePushed() ? par1Entity.boundingBox : null;
+//        if (getCollisionHandler() != null)
+//        {
+//            return getCollisionHandler().getCollisionBox(this, par1Entity);
+//        }
+        return this.boundingBox;
     }
 
     /**
@@ -140,7 +143,7 @@ public class EntityTrain extends Entity
         this.prevPosX = par2;
         this.prevPosY = par4;
         this.prevPosZ = par6;
-        this.boundingBox.setBounds(0.9D, 0.9D, 0.9D, 0.9D, 0.9D, 0.9D);
+        this.boundingBox.setBounds(1D, 1D, 1D, 1D, 1D, 1D);
     }
 
     /**

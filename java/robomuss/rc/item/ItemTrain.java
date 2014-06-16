@@ -16,7 +16,7 @@ public class ItemTrain extends Item {
      */
     public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10){
         if (!BlockTrack.isTrack(par3World.getBlock(par4, par5, par6)))
-         return false;
+        // return false;
             if (!par3World.isRemote)
             {
                 EntityTrain entity = EntityTrain.createTrain(par3World, (double)((float)par4 + 0.5F), (double)((float)par5 + 0.5F), (double)((float)par6 + 0.5F));
