@@ -23,4 +23,8 @@ public class TileEntityTrack extends TileEntity {
 		compound.setInteger("direction", direction);
 		compound.setInteger("colour", colour);
 	}
+
+    public int getDirection() {
+        return direction;
+    }
 }
