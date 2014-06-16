@@ -114,7 +114,7 @@ public class RenderTrain extends Render
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityTrain)par1Entity);
+        return minecartTextures;
     }
 
     /**

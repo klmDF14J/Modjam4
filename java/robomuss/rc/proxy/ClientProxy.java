@@ -1,9 +1,9 @@
 package robomuss.rc.proxy;
 
-import robomuss.rc.block.render.*;
-import robomuss.rc.block.te.*;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import robomuss.rc.block.render.*;
+import robomuss.rc.block.te.*;
 import robomuss.rc.entity.EntityTrain;
 import robomuss.rc.entity.RenderTrain;
 

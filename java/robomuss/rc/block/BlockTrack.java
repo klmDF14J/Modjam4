@@ -3,12 +3,12 @@ package robomuss.rc.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.entity.EntityTrain;
 import robomuss.rc.item.RCItems;
 
 public class BlockTrack extends BlockContainer {
@@ -78,7 +78,7 @@ public class BlockTrack extends BlockContainer {
      * @param z The rail Z coordinate.
      * @return The max speed of the current rail.
      */
-    public float getRailMaxSpeed(World world, EntityMinecart cart, int y, int x, int z)
+    public float getRailMaxSpeed(World world, EntityTrain cart, int y, int x, int z)
     {
         return 0.4f;
     }
@@ -108,7 +108,7 @@ public class BlockTrack extends BlockContainer {
      * @param z The rail Z coordinate.
      * @return The metadata.
      */
-    public int getBasicRailMetadata(IBlockAccess world, EntityMinecart cart, int x, int y, int z)
+    public int getBasicRailMetadata(IBlockAccess world, EntityTrain cart, int x, int y, int z)
     {
         int meta = world.getBlockMetadata(x, y, z);
         if(isPowered())
