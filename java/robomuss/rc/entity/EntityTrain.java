@@ -3,7 +3,6 @@ package robomuss.rc.entity;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockRailBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -107,10 +106,7 @@ public class EntityTrain extends Entity
      */
     public AxisAlignedBB getCollisionBox(Entity par1Entity)
     {
-//        if (getCollisionHandler() != null)
-//        {
-//            return getCollisionHandler().getCollisionBox(this, par1Entity);
-//        }
+
         return par1Entity.canBePushed() ? par1Entity.boundingBox : null;
     }
 
@@ -123,7 +119,7 @@ public class EntityTrain extends Entity
 //        {
 //            return getCollisionHandler().getBoundingBox(this);
 //        }
-        return null;
+        return this.boundingBox;
     }
 
     /**
@@ -144,6 +140,7 @@ public class EntityTrain extends Entity
         this.prevPosX = par2;
         this.prevPosY = par4;
         this.prevPosZ = par6;
+        this.boundingBox.setBounds(0.9D, 0.9D, 0.9D, 0.9D, 0.9D, 0.9D);
     }
 
     /**
@@ -343,7 +340,7 @@ public class EntityTrain extends Entity
             i = MathHelper.floor_double(this.posY);
             int i1 = MathHelper.floor_double(this.posZ);
 
-            if (BlockRailBase.func_150049_b_(this.worldObj, l, i - 1, i1))
+            if (BlockTrack.isTrack(this.worldObj, l, i - 1, i1))
             {
                 --i;
             }
@@ -356,7 +353,7 @@ public class EntityTrain extends Entity
             {
                 float railMaxSpeed = ((BlockTrack)block).getRailMaxSpeed(worldObj, this, l, i, i1);
                 double maxSpeed = Math.min(railMaxSpeed, getCurrentCartSpeedCapOnRail());
-                this.func_145821_a(l, i, i1, maxSpeed, getSlopeAdjustment(), block, ((BlockTrack)block).getBasicRailMetadata(worldObj, this, l, i, i1));
+                this.calcBlocks(l, i, i1, maxSpeed, getSlopeAdjustment(), block, ((BlockTrack) block).getBasicRailMetadata(worldObj, this, l, i, i1));
 
                 if (block == Blocks.activator_rail)
                 {
@@ -393,17 +390,17 @@ public class EntityTrain extends Entity
 
             this.setRotation(this.rotationYaw, this.rotationPitch);
 
-            AxisAlignedBB box;
+      //      AxisAlignedBB box;
 //            if (getCollisionHandler() != null)
 //            {
 //                box = getCollisionHandler().getMinecartCollisionBox(this);
 //            }
 //            else
 //            {
-                box = boundingBox.expand(0.2D, 0.0D, 0.2D);
+           //     box = boundingBox.expand(0.2D, 0.0D, 0.2D);
 //            }
 
-            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, box);
+            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox);
 
             if (list != null && !list.isEmpty())
             {
@@ -485,51 +482,51 @@ public class EntityTrain extends Entity
         }
     }
 
-    protected void func_145821_a(int p_145821_1_, int p_145821_2_, int p_145821_3_, double p_145821_4_, double p_145821_6_, Block p_145821_8_, int p_145821_9_)
+    protected void calcBlocks(int x, int y, int z, double railSpeed, double slope, Block block, int meta)
     {
         this.fallDistance = 0.0F;
         Vec3 vec3 = this.func_70489_a(this.posX, this.posY, this.posZ);
-        this.posY = (double)p_145821_2_;
+        this.posY = (double)y;
         boolean flag = false;
         boolean flag1 = false;
 
      //   if (p_145821_8_ == Blocks.golden_rail)
       //  {
-            flag = (worldObj.getBlockMetadata(p_145821_1_, p_145821_2_, p_145821_3_) & 8) != 0;
-            flag1 = !flag;
+       //     flag = (worldObj.getBlockMetadata(p_145821_1_, p_145821_2_, p_145821_3_) & 8) != 0;
+       //     flag1 = !flag;
      //   }
 
-        if (((BlockTrack)p_145821_8_).isPowered())
+        if (((BlockTrack)block).isPowered())
         {
-            p_145821_9_ &= 7;
+            meta &= 7;
         }
 
-        if (p_145821_9_ >= 2 && p_145821_9_ <= 5)
+        if (meta >= 2 && meta <= 5)
         {
-            this.posY = (double)(p_145821_2_ + 1);
+            this.posY = (double)(y + 1);
         }
 
-        if (p_145821_9_ == 2)
+        if (meta == 2)
         {
-            this.motionX -= p_145821_6_;
+            this.motionX -= slope;
         }
 
-        if (p_145821_9_ == 3)
+        if (meta == 3)
         {
-            this.motionX += p_145821_6_;
+            this.motionX += slope;
         }
 
-        if (p_145821_9_ == 4)
+        if (meta == 4)
         {
-            this.motionZ += p_145821_6_;
+            this.motionZ += slope;
         }
 
-        if (p_145821_9_ == 5)
+        if (meta == 5)
         {
-            this.motionZ -= p_145821_6_;
+            this.motionZ -= slope;
         }
 
-        int[][] aint = matrix[p_145821_9_];
+        int[][] aint = matrix[meta];
         double d2 = (double)(aint[1][0] - aint[0][0]);
         double d3 = (double)(aint[1][2] - aint[0][2]);
         double d4 = Math.sqrt(d2 * d2 + d3 * d3);
@@ -593,10 +590,10 @@ public class EntityTrain extends Entity
         }
 
         d7 = 0.0D;
-        d8 = (double)p_145821_1_ + 0.5D + (double)aint[0][0] * 0.5D;
-        d9 = (double)p_145821_3_ + 0.5D + (double)aint[0][2] * 0.5D;
-        d10 = (double)p_145821_1_ + 0.5D + (double)aint[1][0] * 0.5D;
-        double d11 = (double)p_145821_3_ + 0.5D + (double)aint[1][2] * 0.5D;
+        d8 = (double)x + 0.5D + (double)aint[0][0] * 0.5D;
+        d9 = (double)z + 0.5D + (double)aint[0][2] * 0.5D;
+        d10 = (double)x + 0.5D + (double)aint[1][0] * 0.5D;
+        double d11 = (double)z + 0.5D + (double)aint[1][2] * 0.5D;
         d2 = d10 - d8;
         d3 = d11 - d9;
         double d12;
@@ -604,13 +601,13 @@ public class EntityTrain extends Entity
 
         if (d2 == 0.0D)
         {
-            this.posX = (double)p_145821_1_ + 0.5D;
-            d7 = this.posZ - (double)p_145821_3_;
+            this.posX = (double)x + 0.5D;
+            d7 = this.posZ - (double)z;
         }
         else if (d3 == 0.0D)
         {
-            this.posZ = (double)p_145821_3_ + 0.5D;
-            d7 = this.posX - (double)p_145821_1_;
+            this.posZ = (double)z + 0.5D;
+            d7 = this.posX - (double)x;
         }
         else
         {
@@ -623,13 +620,13 @@ public class EntityTrain extends Entity
         this.posZ = d9 + d3 * d7;
         this.setPosition(this.posX, this.posY + (double)this.yOffset, this.posZ);
 
-        moveMinecartOnRail(p_145821_1_, p_145821_2_, p_145821_3_, p_145821_4_);
+        moveMinecartOnRail(x, y, z, railSpeed);
 
-        if (aint[0][1] != 0 && MathHelper.floor_double(this.posX) - p_145821_1_ == aint[0][0] && MathHelper.floor_double(this.posZ) - p_145821_3_ == aint[0][2])
+        if (aint[0][1] != 0 && MathHelper.floor_double(this.posX) - x == aint[0][0] && MathHelper.floor_double(this.posZ) - z == aint[0][2])
         {
             this.setPosition(this.posX, this.posY + (double)aint[0][1], this.posZ);
         }
-        else if (aint[1][1] != 0 && MathHelper.floor_double(this.posX) - p_145821_1_ == aint[1][0] && MathHelper.floor_double(this.posZ) - p_145821_3_ == aint[1][2])
+        else if (aint[1][1] != 0 && MathHelper.floor_double(this.posX) - x == aint[1][0] && MathHelper.floor_double(this.posZ) - z == aint[1][2])
         {
             this.setPosition(this.posX, this.posY + (double)aint[1][1], this.posZ);
         }
@@ -654,11 +651,11 @@ public class EntityTrain extends Entity
         int j1 = MathHelper.floor_double(this.posX);
         int i1 = MathHelper.floor_double(this.posZ);
 
-        if (j1 != p_145821_1_ || i1 != p_145821_3_)
+        if (j1 != x || i1 != z)
         {
             d6 = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
-            this.motionX = d6 * (double)(j1 - p_145821_1_);
-            this.motionZ = d6 * (double)(i1 - p_145821_3_);
+            this.motionX = d6 * (double)(j1 - x);
+            this.motionZ = d6 * (double)(i1 - z);
         }
 
 
@@ -672,24 +669,24 @@ public class EntityTrain extends Entity
                 this.motionX += this.motionX / d15 * d16;
                 this.motionZ += this.motionZ / d15 * d16;
             }
-            else if (p_145821_9_ == 1)
+            else if (meta == 1)
             {
-                if (this.worldObj.getBlock(p_145821_1_ - 1, p_145821_2_, p_145821_3_).isNormalCube())
+                if (this.worldObj.getBlock(x - 1, y, z).isNormalCube())
                 {
                     this.motionX = 0.02D;
                 }
-                else if (this.worldObj.getBlock(p_145821_1_ + 1, p_145821_2_, p_145821_3_).isNormalCube())
+                else if (this.worldObj.getBlock(x + 1, y, z).isNormalCube())
                 {
                     this.motionX = -0.02D;
                 }
             }
-            else if (p_145821_9_ == 0)
+            else if (meta == 0)
             {
-                if (this.worldObj.getBlock(p_145821_1_, p_145821_2_, p_145821_3_ - 1).isNormalCube())
+                if (this.worldObj.getBlock(x, y, z - 1).isNormalCube())
                 {
                     this.motionZ = 0.02D;
                 }
-                else if (this.worldObj.getBlock(p_145821_1_, p_145821_2_, p_145821_3_ + 1).isNormalCube())
+                else if (this.worldObj.getBlock(x, y, z + 1).isNormalCube())
                 {
                     this.motionZ = -0.02D;
                 }
@@ -720,14 +717,14 @@ public class EntityTrain extends Entity
         int j = MathHelper.floor_double(par3);
         int k = MathHelper.floor_double(par5);
 
-        if (BlockRailBase.func_150049_b_(this.worldObj, i, j - 1, k))
+        if (BlockTrack.isTrack(this.worldObj, i, j - 1, k))
         {
             --j;
         }
 
         Block block = this.worldObj.getBlock(i, j, k);
 
-        if (!BlockRailBase.func_150051_a(block))
+        if (!BlockTrack.isTrack(block))
         {
             return null;
         }
@@ -770,14 +767,14 @@ public class EntityTrain extends Entity
         int j = MathHelper.floor_double(par3);
         int k = MathHelper.floor_double(par5);
 
-        if (BlockRailBase.func_150049_b_(this.worldObj, i, j - 1, k))
+        if (BlockTrack.isTrack(this.worldObj, i, j - 1, k))
         {
             --j;
         }
 
         Block block = this.worldObj.getBlock(i, j, k);
 
-        if (BlockRailBase.func_150051_a(block))
+        if (BlockTrack.isTrack(block))
         {
             int l = ((BlockTrack)block).getBasicRailMetadata(worldObj, this, i, j, k);
             par3 = (double)j;

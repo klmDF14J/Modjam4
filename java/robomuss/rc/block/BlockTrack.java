@@ -123,7 +123,7 @@ public class BlockTrack extends BlockContainer {
      */
     public boolean isPowered()
     {
-        return true;
+        return false;
     }
 
 }
