@@ -64,7 +64,6 @@ public class BlockTrack extends BlockContainer {
 
     public static final boolean isTrack(Block block)
     {
-        //return false;
         return block instanceof BlockTrack;
     }
 

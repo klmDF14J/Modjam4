@@ -1,6 +1,5 @@
 package robomuss.rc.entity;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIPanic;
@@ -79,35 +78,6 @@ public class EntityTrain extends EntityAnimal
     }
 
     /**
-     * Returns the sound this mob makes while it's alive.
-     */
-    protected String getLivingSound()
-    {
-        return "mob.pig.say";
-    }
-
-    /**
-     * Returns the sound this mob makes when it is hurt.
-     */
-    protected String getHurtSound()
-    {
-        return "mob.pig.say";
-    }
-
-    /**
-     * Returns the sound this mob makes on death.
-     */
-    protected String getDeathSound()
-    {
-        return "mob.pig.death";
-    }
-
-    protected void func_145780_a(int p_145780_1_, int p_145780_2_, int p_145780_3_, Block p_145780_4_)
-    {
-        this.playSound("mob.pig.step", 0.15F, 1.0F);
-    }
-
-    /**
      * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
      */
     public boolean interact(EntityPlayer par1EntityPlayer)
@@ -115,6 +85,8 @@ public class EntityTrain extends EntityAnimal
         if(par1EntityPlayer.isSneaking())
         {
             this.setDead();
+            if(!this.worldObj.isRemote)
+            this.dropItem(this.getDropItem(), 1);
         }
 
         if (super.interact(par1EntityPlayer))
@@ -137,8 +109,6 @@ public class EntityTrain extends EntityAnimal
         return RCItems.train;
     }
 
-
-
     /**
      * Called when the mob is falling. Calculates and applies fall damage.
      */
@@ -151,5 +121,14 @@ public class EntityTrain extends EntityAnimal
             ((EntityPlayer)this.riddenByEntity).triggerAchievement(AchievementList.flyPig);
         }
     }
+
+    @Override
+    public void onUpdate()
+    {
+        super.onUpdate();
+        //add some thing to change the look drection, might do it in the track block
+        this.getLookHelper().setLookPosition(this.posX, this.posY, this.posZ, 0F, 0F);
+    }
+
 
 }
