@@ -5,9 +5,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
 import org.lwjgl.opengl.GL11;
 
 public class RenderTrain extends Render
@@ -42,53 +40,10 @@ public class RenderTrain extends Render
         double d4 = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double)par9;
         double d5 = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double)par9;
         double d6 = 0.30000001192092896D;
-        Vec3 vec3 = entity.func_70489_a(d3, d4, d5);
         float f5 = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * par9;
-
-        if (vec3 != null)
-        {
-            Vec3 vec31 = entity.func_70495_a(d3, d4, d5, d6);
-            Vec3 vec32 = entity.func_70495_a(d3, d4, d5, -d6);
-
-            if (vec31 == null)
-            {
-                vec31 = vec3;
-            }
-
-            if (vec32 == null)
-            {
-                vec32 = vec3;
-            }
-
-            par2 += vec3.xCoord - d3;
-            par4 += (vec31.yCoord + vec32.yCoord) / 2.0D - d4;
-            par6 += vec3.zCoord - d5;
-            Vec3 vec33 = vec32.addVector(-vec31.xCoord, -vec31.yCoord, -vec31.zCoord);
-
-            if (vec33.lengthVector() != 0.0D)
-            {
-                vec33 = vec33.normalize();
-                par8 = (float)(Math.atan2(vec33.zCoord, vec33.xCoord) * 180.0D / Math.PI);
-                f5 = (float)(Math.atan(vec33.yCoord) * 73.0D);
-            }
-        }
-
         GL11.glTranslatef((float)par2, (float)par4 + 0.5F, (float)par6);
         GL11.glRotatef(180.0F - par8, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(-f5, 0.0F, 0.0F, 1.0F);
-        float f7 = (float)entity.getRollingAmplitude() - par9;
-        float f8 = entity.getDamage() - par9;
-
-        if (f8 < 0.0F)
-        {
-            f8 = 0.0F;
-        }
-
-        if (f7 > 0.0F)
-        {
-            GL11.glRotatef(MathHelper.sin(f7) * f7 * f8 / 10.0F * (float)entity.getRollingDirection(), 1.0F, 0.0F, 0.0F);
-        }
-
         GL11.glScalef(-1.0F, -1.0F, 1.0F);
         this.modelTrain.render(entity, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
         GL11.glPopMatrix();
