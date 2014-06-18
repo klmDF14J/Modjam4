@@ -21,7 +21,17 @@ public class EntityTrain extends EntityAnimal
         this.setSize(0.9F, 0.9F);
         this.tasks.addTask(5, new EntityAIWander(this, 0.0D));
         this.tasks.addTask(1, new EntityAIPanic(this, 0.4D));
+        this.boundingBox.setBounds(0.9D, 0.9D, 0.9D, 0D, 0D, 0D);
+
     }
+
+    @Override
+    public boolean canBePushed()
+    {
+        return false;
+    }
+
+    public void onCollideWithPlayer(EntityPlayer par1EntityPlayer) {}
 
     public EntityTrain(World par1World, double par2, double par4, double par6)
     {

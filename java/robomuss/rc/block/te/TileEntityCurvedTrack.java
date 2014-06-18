@@ -18,4 +18,48 @@ public class TileEntityCurvedTrack extends TileEntityTrack {
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
 		readFromNBT(packet.func_148857_g());
 	}
+
+    @Override
+    public int getDirection() {
+
+        if(canReverse() && reverse)
+        {
+            if(direction == 0){
+                return 1;
+            }
+            if(direction == 1){
+                return 0;
+            }
+            if(direction == 2){
+                return 1;
+            }
+            if(direction == 3){
+                return 2;
+            }
+        }
+            if(direction == 0){
+                return 3;
+            }
+            if(direction == 1){
+                return 0;
+            }
+            if(direction == 2){
+                return 1;
+            }
+            if(direction == 3){
+                return 2;
+            }
+
+
+
+
+
+         return direction;
+    }
+
+    @Override
+    public boolean canReverse()
+    {
+        return true;
+    }
 }

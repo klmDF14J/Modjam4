@@ -7,6 +7,7 @@ public class TileEntityTrack extends TileEntity {
 
 	public int direction;
 	public int colour;
+    public boolean reverse = false;
 	
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
@@ -14,6 +15,7 @@ public class TileEntityTrack extends TileEntity {
 		
 		direction = compound.getInteger("direction");
 		colour = compound.getInteger("colour");
+        reverse = compound.getBoolean("reverse");
 	}
 	
 	@Override
@@ -22,9 +24,16 @@ public class TileEntityTrack extends TileEntity {
 		
 		compound.setInteger("direction", direction);
 		compound.setInteger("colour", colour);
+        compound.setBoolean("reverse", reverse);
 	}
 
     public int getDirection() {
         return direction;
     }
+
+    public boolean canReverse()
+    {
+        return false;
+    }
+
 }

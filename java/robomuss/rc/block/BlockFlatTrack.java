@@ -43,6 +43,9 @@ public class BlockFlatTrack extends BlockTrack {
 
     @Override
     public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity) {
+        if(par1World.isBlockIndirectlyGettingPowered(par2, par3 -1 , par4))
+            return;
+        trainPass(par1World, par2, par3, par4, par5Entity);
         double m_speed = getRailMaxSpeed();
         TileEntityTrack tile = (TileEntityTrack) par1World.getTileEntity(par2, par3, par4);
         int a = tile.getDirection();

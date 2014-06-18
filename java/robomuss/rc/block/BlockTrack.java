@@ -3,6 +3,7 @@ package robomuss.rc.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -28,14 +29,24 @@ public class BlockTrack extends BlockContainer {
 			if(player.getHeldItem() != null) {
 				if(player.getHeldItem().getItem() == RCItems.hammer) {
 					TileEntityTrack tet = (TileEntityTrack) world.getTileEntity(x, y, z);
-					if(tet.direction == 3) {
-						tet.direction = 0;
-					}
-					else {
-						tet.direction++;
-					}
-					world.markBlockForUpdate(x, y, z);
-					return true;
+                    if(player.isSneaking())
+                    {
+                        tet.reverse = ! tet.reverse;
+                        world.markBlockForUpdate(x, y, z);
+                        System.out.println(tet.reverse);
+                        return true;
+                    }
+                    else
+                    {
+                        if(tet.direction == 3) {
+                            tet.direction = 0;
+                        }
+                        else {
+                            tet.direction++;
+                        }
+                        world.markBlockForUpdate(x, y, z);
+                        return true;
+                    }
 				}
 				else if(player.getHeldItem().getItem() == RCItems.brush) {
 					TileEntityTrack tet = (TileEntityTrack) world.getTileEntity(x, y, z);
@@ -71,6 +82,11 @@ public class BlockTrack extends BlockContainer {
     public double getRailMaxSpeed()
     {
         return 0.2D;
+    }
+
+
+    public void trainPass(World par1World, int par2, int par3, int par4, Entity par5Entity) {
+
     }
 
 }
