@@ -2,9 +2,7 @@ package robomuss.rc.netty.packets;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.te.TileEntityTrack;
@@ -16,18 +14,16 @@ public class PacketPlaceBlocks extends AbstractPacket {
 
     int id;
     int direction;
-    int eID;
 
 
 
-    public PacketPlaceBlocks(int posX, int posY, int posZ, int Id, int Direction, EntityPlayer player) {
+
+    public PacketPlaceBlocks(int posX, int posY, int posZ, int Id, int Direction) {
         this.x = posX;
         this.y = posY;
         this.z = posZ;
         id = Id;
         direction = Direction;
-        eID = player.getEntityId();
-        System.out.println("hi");
     }
 
     @Override
@@ -35,9 +31,8 @@ public class PacketPlaceBlocks extends AbstractPacket {
         buffer.writeInt(x);
         buffer.writeInt(y);
         buffer.writeInt(z);
-
         buffer.writeInt(id);
-        buffer.writeInt(eID);
+        buffer.writeInt(direction);
     }
 
     @Override
@@ -45,48 +40,25 @@ public class PacketPlaceBlocks extends AbstractPacket {
         this.x = buffer.readInt();
         this.y = buffer.readInt();
         this.z = buffer.readInt();
-
         this.id = buffer.readInt();
-        this.eID = buffer.readInt();
+        this.direction = buffer.readInt();
     }
 
     @Override
     public void handleClientSide(EntityPlayer player) {
-         placeBlock();
+         placeBlock(player);
     }
 
     @Override
     public void handleServerSide(EntityPlayer player) {
-        placeBlock();
+        placeBlock(player);
     }
 
 
-    public World getWorld()
-    {
-        for (int j = 0; j < MinecraftServer.getServer().worldServers.length; j++)
-        {
-            for (int i = 0; i < MinecraftServer.getServer().worldServers[j].loadedEntityList.size(); i++)
-            {
-                int id = ((Entity)MinecraftServer.getServer().worldServers[j].loadedEntityList.get(i)).getEntityId();
-                if(id == eID)
-                {
-                    return  ((Entity)MinecraftServer.getServer().worldServers[j].loadedEntityList.get(i)).worldObj;
-
-                }
-            }
-        }
-        System.out.println("THERE WAS AN ERROR");
-        return null;
-    }
-
-
-    public void placeBlock()
+    public void placeBlock(EntityPlayer player)
     {
         System.out.println("hi");
-        World world = getWorld();
-
-        if(world == null)
-            return;
+        World world = player.worldObj;
 
         if(id == 0) {
             world.setBlock(x, y, z, RCBlocks.flat_track);
