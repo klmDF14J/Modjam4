@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.gui.GuiHandler;
 import robomuss.rc.item.RCItems;
+import robomuss.rc.netty.PacketPipeline;
 import robomuss.rc.proxy.CommonProxy;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -23,8 +24,9 @@ public class RCMod {
 	public static final String MODID = "rc";
 	public static final String NAME = "Rollercoaster Mod";
 	public static final String VERSION = "1.0";
-
-	@Instance
+    public static final PacketPipeline packetPipeline	= new PacketPipeline();
+    
+	@Instance(RCMod.MODID)
 	public static RCMod instance;
 	
 	@SidedProxy(clientSide="robomuss.rc.proxy.ClientProxy", serverSide="robomuss.rc.proxy.CommonProxy")
@@ -69,11 +71,11 @@ public class RCMod {
 	
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		
+		packetPipeline.initalise();
 	}
 	
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		
+		packetPipeline.postInitialise();
 	}
 }

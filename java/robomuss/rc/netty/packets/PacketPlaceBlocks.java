@@ -1,83 +1,89 @@
-package robomuss.rc.gui;
+package robomuss.rc.netty.packets;
 
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerContext;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
-import robomuss.rc.RCMod;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.te.TileEntityTrack;
-import robomuss.rc.netty.packets.PacketPlaceBlocks;
+import robomuss.rc.netty.AbstractPacket;
 
-public class GuiTrackBuilder extends GuiScreen {
+public class PacketPlaceBlocks extends AbstractPacket {
 
-	private EntityPlayer player;
-	private World world;
-	private int x;
-	private int y;
-	private int z;
-	private int direction;
-	
-	public GuiTrackBuilder(EntityPlayer player, World world, int x, int y, int z) {
-		this.player = player;
-		this.world = world;
-		this.x = x;
-		this.y = y;
-		this.z = z;
-		//TileEntityTrackBuilder trackbuilder = (TileEntityTrack) world.getTileEntity(x, y, z);
+    int	x, y, z;
+
+    int id;
+    int direction;
+    int eID;
 
 
 
+    public PacketPlaceBlocks(int posX, int posY, int posZ, int Id, int Direction, EntityPlayer player) {
+        this.x = posX;
+        this.y = posY;
+        this.z = posZ;
+        id = Id;
+        direction = Direction;
+        eID = player.getEntityId();
+        System.out.println("hi");
+    }
 
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public void initGui() {
-		buttonList.clear();
-		
-		buttonList.add(new GuiButton(0, 10, 10, 20, 20, "|"));
-		buttonList.add(new GuiButton(1, 40, 10, 20, 20, "_/"));
-		buttonList.add(new GuiButton(2, 70, 10, 20, 20, "/"));
-		buttonList.add(new GuiButton(3, 100, 10, 20, 20, "/-"));
-		buttonList.add(new GuiButton(4, 130, 10, 20, 20, new String("\\").substring(0, 1) + "_"));
-		buttonList.add(new GuiButton(5, 160, 10, 20, 20, new String("\\").substring(0, 1)));
-		buttonList.add(new GuiButton(6, 190, 10, 20, 20, new String("-\\").substring(0, 2)));
-		buttonList.add(new GuiButton(7, 220, 10, 20, 20, "�"));
-		buttonList.add(new GuiButton(8, 250, 10, 20, 20, "o"));
-		
-		buttonList.add(new GuiButton(9, 10, 40, 20, 20, "< >"));
-		buttonList.add(new GuiButton(10, 40, 40, 50, 20, "Build"));
-	}
-	
-	@Override
-	public void drawScreen(int par1, int par2, float par3) {
-		super.drawScreen(par1, par2, par3);
-		
-		drawString(fontRendererObj, "Direction: " + direction, 10, 70, 0xFFFFFF);
-	}
-	
-	@Override
-	protected void actionPerformed(GuiButton button) {
-		int id = button.id;
-		
+    @Override
+    public void encodeInto(ChannelHandlerContext ctx, ByteBuf buffer) {
+        buffer.writeInt(x);
+        buffer.writeInt(y);
+        buffer.writeInt(z);
+
+        buffer.writeInt(id);
+        buffer.writeInt(eID);
+    }
+
+    @Override
+    public void decodeInto(ChannelHandlerContext ctx, ByteBuf buffer) {
+        this.x = buffer.readInt();
+        this.y = buffer.readInt();
+        this.z = buffer.readInt();
+
+        this.id = buffer.readInt();
+        this.eID = buffer.readInt();
+    }
+
+    @Override
+    public void handleClientSide(EntityPlayer player) {
+         placeBlock();
+    }
+
+    @Override
+    public void handleServerSide(EntityPlayer player) {
+        placeBlock();
+    }
 
 
-        //TODO call packet with id
-
-
-
-
-
+    public World getWorld()
+    {
         for (int j = 0; j < MinecraftServer.getServer().worldServers.length; j++)
         {
-            System.out.println(MinecraftServer.getServer().worldServers[0].getProviderName());
+            for (int i = 0; i < MinecraftServer.getServer().worldServers[j].loadedEntityList.size(); i++)
+            {
+                int id = ((Entity)MinecraftServer.getServer().worldServers[j].loadedEntityList.get(i)).getEntityId();
+                if(id == eID)
+                {
+                    return  ((Entity)MinecraftServer.getServer().worldServers[j].loadedEntityList.get(i)).worldObj;
+
+                }
+            }
         }
+        System.out.println("THERE WAS AN ERROR");
+        return null;
+    }
 
 
+    public void placeBlock()
+    {
         System.out.println("hi");
-
+        World world = getWorld();
 
         if(world == null)
             return;
@@ -196,13 +202,7 @@ public class GuiTrackBuilder extends GuiScreen {
         }
 
 
-        RCMod.packetPipeline.sendToServer(new PacketPlaceBlocks(this.x, this.y, this.z, id, direction, player));
+    }
 
-	}
 
-	private void change(int id) {
-		/*player.posX = x;
-		player.posY = y + 1;
-		player.posZ = z;*/
-	}
 }
