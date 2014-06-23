@@ -4,6 +4,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import robomuss.rc.block.RCBlocks;
+import robomuss.rc.gui.GuiHandler;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.proxy.CommonProxy;
 import cpw.mods.fml.common.Mod;
@@ -63,6 +64,7 @@ public class RCMod {
 		proxy.initRenderers();
 		RCBlocks.init();
 		RCItems.init();
+		new GuiHandler();
 	}
 	
 	@EventHandler

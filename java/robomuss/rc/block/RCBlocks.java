@@ -44,7 +44,7 @@ public class RCBlocks {
 		GameRegistry.registerBlock(loop, "loop");
 		
         GameRegistry.registerBlock(support, "support");
-        //GameRegistry.registerBlock(track_designer, "track_designer");
+        GameRegistry.registerBlock(track_designer, "track_designer");
         
         GameRegistry.registerBlock(path, ItemBlockPath.class, "path");
 		GameRegistry.registerBlock(railings, "railings");
