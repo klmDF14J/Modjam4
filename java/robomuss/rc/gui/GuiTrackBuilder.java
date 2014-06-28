@@ -1,17 +1,13 @@
 package robomuss.rc.gui;
 
-import java.io.IOException;
-
-import robomuss.rc.block.RCBlocks;
-import robomuss.rc.block.te.TileEntityTrack;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.network.INetHandler;
-import net.minecraft.network.Packet;
-import net.minecraft.network.PacketBuffer;
 import net.minecraft.world.World;
+import robomuss.rc.block.RCBlocks;
+import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.netty.SimplePackets;
+import robomuss.rc.netty.messageTrackBuilder;
 
 public class GuiTrackBuilder extends GuiScreen {
 
@@ -44,7 +40,7 @@ public class GuiTrackBuilder extends GuiScreen {
 		buttonList.add(new GuiButton(4, 130, 10, 20, 20, new String("\\").substring(0, 1) + "_"));
 		buttonList.add(new GuiButton(5, 160, 10, 20, 20, new String("\\").substring(0, 1)));
 		buttonList.add(new GuiButton(6, 190, 10, 20, 20, new String("-\\").substring(0, 2)));
-		buttonList.add(new GuiButton(7, 220, 10, 20, 20, "¬"));
+		buttonList.add(new GuiButton(7, 220, 10, 20, 20, "ï¿½"));
 		buttonList.add(new GuiButton(8, 250, 10, 20, 20, "o"));
 		
 		buttonList.add(new GuiButton(9, 10, 40, 20, 20, "< >"));
@@ -61,25 +57,10 @@ public class GuiTrackBuilder extends GuiScreen {
 	@Override
 	protected void actionPerformed(GuiButton button) {
 		int id = button.id;
-		
-		Packet packet = new Packet() {
-			
-			@Override
-			public void writePacketData(PacketBuffer pb) throws IOException {
-				
-			}
-			
-			@Override
-			public void readPacketData(PacketBuffer pb) throws IOException {
-				
-			}
-			
-			@Override
-			public void processPacket(INetHandler handler) {
-				
-			}
-		};
-		
+
+        if(id >= 0 && id <= 10)
+        SimplePackets.INSTANCE.sendToServer(new messageTrackBuilder(x, y, z, id, direction));
+
 		if(id == 0) {
 			world.setBlock(x, y, z, RCBlocks.flat_track);
 			TileEntityTrack track = (TileEntityTrack) world.getTileEntity(x, y, z);
@@ -192,6 +173,9 @@ public class GuiTrackBuilder extends GuiScreen {
 				direction += 1;
 			}
 		}
+
+
+
 	}
 
 	private void change(int id) {

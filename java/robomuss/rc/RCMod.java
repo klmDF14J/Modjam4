@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.gui.GuiHandler;
 import robomuss.rc.item.RCItems;
+import robomuss.rc.netty.SimplePackets;
 import robomuss.rc.proxy.CommonProxy;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -65,6 +66,7 @@ public class RCMod {
 		RCBlocks.init();
 		RCItems.init();
 		new GuiHandler();
+        SimplePackets.init();
 	}
 	
 	@EventHandler
